@@ -1,0 +1,26 @@
+Field=Digi-Key Part Number~String~Digi-Key Part Number~152|Field=Accesorios PN~String~Accesorios PN~70|Field=Designator~String~Designator~170|Field=Quantity~Integer~Quantity~41|Field=Manufacturer Name~String~Manufacturer Name~100|Field=Manufacturers Part Number~String~Manufacturers Part Number~100|Field=PartDescription~String~PartDescription~204|Field=Package~String~Package~113|Field=Type~String~Type~100|ReportField=Currency~<none>|ReportField=ProductionQuantity~1|ReportField=ProjectFileName~Extender_Remastered_V1.PrjPcb|ReportField=ProjectFullPath~C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PrjPcb|ReportField=Title~Bill of Materials For Project [Extender_Remastered_V1.PrjPcb] (No PCB Document Selected)|ReportField=TotalQuantity~132|ReportField=ReportTime~11:30:59|ReportField=ReportDate~01-07-2020|ReportField=ReportDateTime~01-07-2020 11:30:59|ReportField=OutputName~Bill of Materials|ReportField=OutputType~BOM_PartType|ReportField=GeneratorName~BOM|ReportField=GeneratorDescription~Bill of Materials|ReportField=VariantName~None|ReportField=Address1~|ReportField=Address2~|ReportField=Address3~|ReportField=Address4~|ReportField=Application_BuildNumber~|ReportField=ApprovedBy~|ReportField=Author~|ReportField=CheckedBy~|ReportField=CompanyName~|ReportField=ConfigurationParameters~|ReportField=ConfiguratorName~|ReportField=CurrentDate~|ReportField=CurrentTime~|ReportField=Date~|ReportField=DocumentFullPathAndName~|ReportField=DocumentName~|ReportField=DocumentNumber~1|ReportField=DrawnBy~|ReportField=Engineer~|ReportField=ImagePath~|ReportField=IsUserConfigurable~|ReportField=ModifiedDate~|ReportField=Organization~|ReportField=ProjectName~|ReportField=Revision~|ReportField=Rule~|ReportField=SheetNumber~1|ReportField=SheetTotal~5|ReportField=Time~|ReportField=Title~|ReportField=VersionControl_RevNumber~|ReportField=DataSourceFileName~Extender_Remastered_V1.PrjPcb|ReportField=DataSourceFullPath~C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PrjPcb|ReportField=PCBDataSourceFileName~Extender_Remastered_V1.PcbDoc|ReportField=PCBDataSourceFullPath~C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc
+311-4223-1-ND||C1, C2|2|Yageo|CC0805JRNPO0BN510|CAP CER 51PF 50V C0G/NP0 0805|0805|SMD
+311-4149-1-ND||C3, C4|2|Yageo|CC0805CRNPO9BN6R0|CAP CER 6PF 50V NP0 0805|0805|SMD
+311-1355-1-ND||C5, C6|2|Yageo|CC0805ZKY5V6BB106|CAP CER 10UF 10V Y5V 0805|0805|SMD
+311-1141-1-ND||C7, C8, C9|3|Yageo|CC0805KRX7R8BB104|CAP CER 0.1UF 25V X7R 0805|0805|SMD
+F1889-ND|F2575CT-ND|F1|1|Littelfuse Inc.|0154.630DR|FUSE BOARD MNT 630MA 125VAC/VDC|SMD|SMD
+160-1169-1-ND||LED1A, LED1B, LED1C, LED1D, LED1E, LED1F, LED1G, LED2A, LED2B, LED2C, LED2D, LED2E, LED2F, LED2G, LED3, LED4|16|Lite-On Inc.|LTST-C150GKT|LED GREEN CLEAR 1206 SMD|1206 (3216 Metric)|SMD
+277-11008-ND|277-2413-ND|P1A, P1B, P1C, P1D, P1E, P1F, P1G, P2A, P2B, P2C, P2D, P2E, P2F, P2G|14|Phoenix Contact|1897102|TERM BLOCK HDR 3POS 90DEG 3.5MM|3POS|Thru-hole
+952-2269-ND||P3|1|Harwin Inc.|M20-9990645|CONN HEADER VERT 6POS 2.54MM|6POS|Thru-hole
+ED1543-ND|A3AAH-1006G-ND|P4, P5|2|On Shore Technology Inc.|302-S101|CONN HEADER VERT 10POS 2.54MM|10POS|Thru-hole
+277-6718-ND|277-2417-ND|P6|1|Phoenix Contact|1995499|TERM BLOCK HDR 2POS 90DEG 3.5MM|3POS|Thru-hole
+||P7|1|||||
+MOCD217R2MCT-ND||Q1A, Q1B, Q1C, Q1D, Q1E, Q1F, Q1G|7|ON Semiconductor|MOCD217R2M|OPTOISO 2.5KV 2CH TRANS 8SOIC|8-SOIC|SMD
+311-680CRCT-ND||R1A, R1B, R1C, R1D, R1E, R1F, R1G, R2A, R2B, R2C, R2D, R2E, R2F, R2G, R3A, R3B, R3C, R3D, R3E, R3F, R3G, R6A, R6B, R6C, R6D, R6E, R6F, R6G|28|Yageo|RC0805FR-07680RL|RES SMD 680 OHM 1% 1/8W 0805|0805 |SMD
+YAG3714CT-ND||R4A, R4B, R4C, R4D, R4E, R4F, R4G, R5A, R5B, R5C, R5D, R5E, R5F, R5G, R12|15|Yageo|AC0805FR-07270RL|RES SMD 270 OHM 1% 1/8W 0805|0805 |SMD
+311-10KARCT-ND||R7|1|Yageo|RC0805JR-0710KL|RES SMD 10K OHM 5% 1/8W 0805|0805|SMD
+311-470CRCT-ND||R8|1|Yageo|RC0805FR-07470RL|RES SMD 470 OHM 1% 1/8W 0805|0805|SMD
+311-4.70KCRCT-ND||R9, R10, R11|3|Yageo|RC0805FR-074K7L|RES SMD 4.7K OHM 1% 1/8W 0805|0805|SMD
+563-1318-1-ND||SW1A, SW1B, SW1C, SW1D, SW1E, SW1F, SW1G, SW2A, SW2B, SW2C, SW2D, SW2E, SW2F, SW2G, SW4, SW5|16|Nidec Copal Electronics|CL-SB-12B-01T|SWITCH SLIDE SPDT 200MA 12V|SMD|SMD
+CKN9112CT-ND||SW3|1|C&K|PTS645SM43SMTR92 LFS|SWITCH TACTILE SPST-NO 0.05A 12V|6.00mm x 6.00mm|SMD
+P7347CT-ND||TVS1|1|Panasonic Electronic Components|ERZ-VF2M330|VARISTOR 33V 125A 2SMD JLEAD|SMD|SMD
+296-27361-1-ND||U1A, U1B, U1C, U1D, U1E, U1F, U1G|7|Texas Instruments|SN74AUP2G14DCKR|IC INVERTER SCHMITT 2CH SC70-6|SC-70-6|SMD
+PIC24FJ128GB204-I/PT-ND||U2|1|Microchip|PIC24FJ128GB204-I/PT|IC MCU 16BIT 128KB FLASH 44TQFP|44-TQFP|SMD
+296-9138-1-ND||U3, U4, U5, U6|4|Texas Instruments|SN74CBTLV3257PWR|IC LV FET MUX/DEMUX 16-TSSOP|TSSOP-16|SMD
+811-2195-5-ND||U7|1|Murata Power Solutions Inc.|OKI-78SR-3.3/1.5-W36-C|DC DC CONVERTER 3.3V 5W|3POS|Thru-hole
+XC1842CT-ND||Y1|1|ECS Inc.|ECS-240-8-30B-CKM|CRYSTAL 24.0000MHZ 8PF SMD|4-SMD, No Lead|SMD

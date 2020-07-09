@@ -1,0 +1,640 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : sans-serif;
+			color : white;
+			background-color : #21489e;
+			padding: 0.3em;
+		}
+		body {
+			font-family : verdana;
+		}
+		td, th {
+			padding: 0.5em;
+			text-align : center;
+			width : 18%;
+		}
+		th {
+			background-color : #A6CAF0;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+		}
+		
+		.DRC_summary_header {							
+			padding-bottom : 0.1em;
+			border : 0px solid black;							
+			width: 100%;
+                        align: right;
+                        
+		}
+
+		.DRC_summary_header_col1, 
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3
+		{
+			color : black;
+			font-size:150%;
+                        padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2: 0em;
+			border : 0px solid black;
+			width : auto;
+			vertical-align: top;
+			font-weight: bold;				
+		}
+		
+		.DRC_summary_header_col1 	
+		{		                       
+			text-align: right;
+                        width: auto;	
+		}
+
+		.DRC_summary_header_col2 	
+		{		
+			text-align: center;	
+		}
+
+		.DRC_summary_header_col3 	
+		{		
+			text-align: left;	
+		}
+
+
+		
+		.header_holder
+		{
+		Width = 100%;
+		border = 0px solid green;
+		padding = 0;
+		}
+		
+		
+		
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+                {
+			left:0;
+			top:0;
+			padding-top : 0.1em;			
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top
+
+		}
+		.front_matter {	
+			
+			margin-top: 5px;
+ 			margin-left: 0px;					 			
+ 			horizontal-align: left;
+		}
+				
+		
+		.front_matter_column1 {
+			width : 10em;	
+			text-align  : right;
+			padding-right:0.1em;
+			
+		}
+		
+		.front_matter_column2 {
+                        width: 0.1em;
+			align: center;
+			text-align : center;
+			margin-right  : 0.1em;	
+			margin-left   : 0.1em;
+		}
+		.front_matter_column3 {
+			width         : auto;  
+			text-align    : left;	
+			margin-right  : 0.5em;				
+		}
+		
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : right;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #EEEEE0 
+		}
+		tr.onmouseout_even { 
+			background-color : #F3F3E3   
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : lightYellow
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #008000 
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD15\Templates\AD-rgb_logo_223x64.gif
+		"><a href="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports" class="customize"><acronym title="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports">customize</acronym></a><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td Style="width:70%">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">30-06-2020</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">15:39:04</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">00:00:04</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3"><a href="file:///C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc" class="file"><acronym title="C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc">C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td Style="Width:30%">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3" style="color : red">72</td></tr>
+</table>
+</td>
+</table>
+<hr><a name="ID25UIKGJH4PAZG0CVKIX0PYOPFK0YX2KH5IMFXFBOMJ41KO5TZKBH"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDMI3NK2NVU4M5BS2LQ1ODADJFDPZBBATCC04JLXFMJT0E02FSIUUJ">Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDRVHRIEVL45REJV1HDLIRAQPVCCBVY1PB22EIYWDDW4BKLPQWATCF">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDPGDHMB2U11KZCSUDLZWGHN2HO2AG1QQFIEAEBO1BAQSXLEOTJSH">Silk primitive without silk layer</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDPC2RVP33LT3FFBKASRJLJW3FNGKOC24ODGJJC2NAYIWI4N3HPKFM">Net Antennae (Tolerance=0mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDEN05H4OUZWSMG3OD0OKZWNGDHB4B31ENFHQQTHKNQ4BYWXP0XPDC">Silk to Silk (Clearance=0.152mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDDP5H0VNLI3RMFSXU5SBR454GJTCGCFY4OSKGKLDTUFYLWSGBYKN">Silk To Solder Mask (Clearance=0.1mm) (IsPad),(All)</a></td>
+<td class="column2">16</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID1L1EFCEL3RGZDWOOT4ZPR2T0SEDDPI1X2B1MF3EPDFGAHVSHWLOC">Minimum Solder Mask Sliver (Gap=0.1mm) (All),(All)</a></td>
+<td class="column2">56</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDST1GHG1HKUBMPXVMIUSAMXWSTMI2TX4HAJB31RNCDEPUADQICLYN">Hole To Hole Clearance (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDUD3FP14GJRIWIRHOXUBMQ2B0SH0C5MDSKURLFNM1DINRWSG1HTWM">Hole Size Constraint (Min=0.3mm) (Max=6.3mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDCLQ0Y042OX11ER0TJNHPCGB03GDWBVWYDF021Z4P5Y5CS00STAG">Minimum Annular Ring (Minimum=0.152mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDOX14MYGPHW4SDMJIQNS2250PYMCKPIASQGY23FI420UMFJOGCV3B">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDGENVVN4OLXNZD5NREG54FS1O0G5FNABGXBABTPP4NKB5MGZHEPQ">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID2AYHJLFHKIYKBE1JFBV5EIDXRHUGLLPLYLLTCUJZDUB2MQGC2OUH">Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDOTPHQUGUFUBPIFSG1MFJFLB1OKG2501PMII5DNJ1TM1YCKGNV3XI">Width Constraint (Min=0.152mm) (Max=1mm) (Preferred=0.254mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDS4D52KMKFNQAFU0VK535MHR5KPN2SQIONIYQYSHTEHMQIUZVBCLC">Clearance Constraint (Gap=0.152mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">72</td>
+</tr>
+</table><br><hr><a name="IDDP5H0VNLI3RMFSXU5SBR454GJTCGCFY4OSKGKLDTUFYLWSGBYKN"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Silk To Solder Mask (Clearance=0.1mm) (IsPad),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8220.866mil|Location1.Y=2357.243mil|Location2.Y=2427.243mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8220.866mil|Location1.Y=2357.243mil|Location2.Y=2427.243mil|Absolute=True">Track (182.775mm,36.125mm)(183.283mm,34.601mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True">Pad Free-(182.725mm,36.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8170.866mil|Location2.X=8200.866mil|Location1.Y=2357.243mil|Location2.Y=2427.243mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8170.866mil|Location2.X=8200.866mil|Location1.Y=2357.243mil|Location2.Y=2427.243mil|Absolute=True">Track (182.267mm,34.601mm)(182.775mm,36.125mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True">Pad Free-(182.725mm,36.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8200.866mil|Location1.Y=2035.082mil|Location2.Y=2427.243mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8200.866mil|Location1.Y=2035.082mil|Location2.Y=2427.243mil|Absolute=True">Track (182.775mm,26.418mm)(182.775mm,36.125mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True">Pad Free-(182.725mm,36.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8180.866mil|Location2.X=8311.322mil|Location1.Y=2417.243mil|Location2.Y=2427.243mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8180.866mil|Location2.X=8311.322mil|Location1.Y=2417.243mil|Location2.Y=2427.243mil|Absolute=True">Track (182.521mm,36.125mm)(185.581mm,36.125mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8091.472mil|Location2.X=8296.322mil|Location1.Y=2319.818mil|Location2.Y=2524.669mil|Absolute=True">Pad Free-(182.725mm,36.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8170.866mil|Location2.X=8200.866mil|Location1.Y=1432.992mil|Location2.Y=1502.992mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8170.866mil|Location2.X=8200.866mil|Location1.Y=1432.992mil|Location2.Y=1502.992mil|Absolute=True">Track (182.267mm,12.649mm)(182.775mm,11.125mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True">Pad Free-(182.825mm,11.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8220.866mil|Location1.Y=1432.992mil|Location2.Y=1502.992mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8220.866mil|Location1.Y=1432.992mil|Location2.Y=1502.992mil|Absolute=True">Track (182.775mm,11.125mm)(183.283mm,12.649mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True">Pad Free-(182.825mm,11.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8200.866mil|Location1.Y=1432.992mil|Location2.Y=1793.153mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8190.866mil|Location2.X=8200.866mil|Location1.Y=1432.992mil|Location2.Y=1793.153mil|Absolute=True">Track (182.775mm,11.125mm)(182.775mm,20.019mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True">Pad Free-(182.825mm,11.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8080.409mil|Location2.X=8210.866mil|Location1.Y=1432.992mil|Location2.Y=1442.992mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8080.409mil|Location2.X=8210.866mil|Location1.Y=1432.992mil|Location2.Y=1442.992mil|Absolute=True">Track (179.969mm,11.125mm)(183.029mm,11.125mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=8095.409mil|Location2.X=8300.259mil|Location1.Y=1335.567mil|Location2.Y=1540.417mil|Absolute=True">Pad Free-(182.825mm,11.125mm)  Multi-Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4185.433mil|Location1.Y=2744.96mil|Location2.Y=2754.96mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4185.433mil|Location1.Y=2744.96mil|Location2.Y=2754.96mil|Absolute=True">Track (80.243mm,44.449mm)(80.783mm,44.449mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-22(81.243mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4526.614mil|Location2.X=4557.874mil|Location1.Y=3138.661mil|Location2.Y=3148.661mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4526.614mil|Location2.X=4557.874mil|Location1.Y=3138.661mil|Location2.Y=3148.661mil|Absolute=True">Track (89.703mm,54.449mm)(90.243mm,54.449mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-44(89.243mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4185.433mil|Location1.Y=3138.661mil|Location2.Y=3148.661mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4185.433mil|Location1.Y=3138.661mil|Location2.Y=3148.661mil|Absolute=True">Track (80.243mm,54.449mm)(80.783mm,54.449mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-34(81.243mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4164.173mil|Location1.Y=3117.401mil|Location2.Y=3148.661mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4164.173mil|Location1.Y=3117.401mil|Location2.Y=3148.661mil|Absolute=True">Track (80.243mm,53.909mm)(80.243mm,54.449mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True">Pad U2-33(79.573mm,53.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4164.173mil|Location1.Y=2744.96mil|Location2.Y=2776.22mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4154.173mil|Location2.X=4164.173mil|Location1.Y=2744.96mil|Location2.Y=2776.22mil|Absolute=True">Track (80.243mm,44.449mm)(80.243mm,44.989mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True">Pad U2-23(79.573mm,45.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4526.614mil|Location2.X=4557.874mil|Location1.Y=2744.96mil|Location2.Y=2754.96mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4526.614mil|Location2.X=4557.874mil|Location1.Y=2744.96mil|Location2.Y=2754.96mil|Absolute=True">Track (89.703mm,44.449mm)(90.243mm,44.449mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-12(89.243mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4547.874mil|Location2.X=4557.874mil|Location1.Y=2744.96mil|Location2.Y=2776.22mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4547.874mil|Location2.X=4557.874mil|Location1.Y=2744.96mil|Location2.Y=2776.22mil|Absolute=True">Track (90.243mm,44.449mm)(90.243mm,44.989mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True">Pad U2-11(90.913mm,45.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4547.874mil|Location2.X=4557.874mil|Location1.Y=3117.401mil|Location2.Y=3148.661mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4547.874mil|Location2.X=4557.874mil|Location1.Y=3117.401mil|Location2.Y=3148.661mil|Absolute=True">Track (90.243mm,53.909mm)(90.243mm,54.449mm)  Bottom Overlay</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True">Pad U2-1(90.913mm,53.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="ID1L1EFCEL3RGZDWOOT4ZPR2T0SEDDPI1X2B1MF3EPDFGAHVSHWLOC"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Minimum Solder Mask Sliver (Gap=0.1mm) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2793.913mil|Location2.Y=2815.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2793.913mil|Location2.Y=2815.913mil|Absolute=True">Pad U3-4(67.071mm,45.845mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2768.913mil|Location2.Y=2790.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2768.913mil|Location2.Y=2790.913mil|Absolute=True">Pad U3-3(67.071mm,45.21mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2844.913mil|Location2.Y=2866.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2844.913mil|Location2.Y=2866.913mil|Absolute=True">Pad U3-6(67.071mm,47.14mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2819.913mil|Location2.Y=2841.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3607.59mil|Location2.X=3673.59mil|Location1.Y=2819.913mil|Location2.Y=2841.913mil|Absolute=True">Pad U3-5(67.071mm,46.505mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2819.913mil|Location2.Y=2841.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2819.913mil|Location2.Y=2841.913mil|Absolute=True">Pad U3-12(61.229mm,46.505mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2844.913mil|Location2.Y=2866.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2844.913mil|Location2.Y=2866.913mil|Absolute=True">Pad U3-11(61.229mm,47.14mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2768.913mil|Location2.Y=2790.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2768.913mil|Location2.Y=2790.913mil|Absolute=True">Pad U3-14(61.229mm,45.21mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2793.913mil|Location2.Y=2815.913mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3377.59mil|Location2.X=3443.59mil|Location1.Y=2793.913mil|Location2.Y=2815.913mil|Absolute=True">Pad U3-13(61.229mm,45.845mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4555.724mil|Location2.X=4577.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4555.724mil|Location2.X=4577.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True">Pad U4-4(90.595mm,43.304mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4530.724mil|Location2.X=4552.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4530.724mil|Location2.X=4552.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True">Pad U4-3(89.96mm,43.304mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4606.724mil|Location2.X=4628.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4606.724mil|Location2.X=4628.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True">Pad U4-6(91.89mm,43.304mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4581.724mil|Location2.X=4603.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4581.724mil|Location2.X=4603.724mil|Location1.Y=2671.881mil|Location2.Y=2737.881mil|Absolute=True">Pad U4-5(91.255mm,43.304mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4581.724mil|Location2.X=4603.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4581.724mil|Location2.X=4603.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True">Pad U4-12(91.255mm,49.146mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4606.724mil|Location2.X=4628.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4606.724mil|Location2.X=4628.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True">Pad U4-11(91.89mm,49.146mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4530.724mil|Location2.X=4552.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4530.724mil|Location2.X=4552.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True">Pad U4-14(89.96mm,49.146mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4555.724mil|Location2.X=4577.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4555.724mil|Location2.X=4577.724mil|Location1.Y=2901.881mil|Location2.Y=2967.881mil|Absolute=True">Pad U4-13(90.595mm,49.146mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True">Pad U5-4(157.871mm,43.095mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True">Pad U5-3(157.871mm,42.46mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True">Pad U5-6(157.871mm,44.39mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7182.393mil|Location2.X=7248.393mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True">Pad U5-5(157.871mm,43.755mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True">Pad U5-12(152.029mm,43.755mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True">Pad U5-11(152.029mm,44.39mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True">Pad U5-14(152.029mm,42.46mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6952.393mil|Location2.X=7018.393mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True">Pad U5-13(152.029mm,43.095mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True">Pad U6-4(169.146mm,43.095mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True">Pad U6-3(169.146mm,42.46mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True">Pad U6-6(169.146mm,44.39mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7626.291mil|Location2.X=7692.291mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True">Pad U6-5(169.146mm,43.755mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2711.645mil|Location2.Y=2733.645mil|Absolute=True">Pad U6-12(163.304mm,43.755mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2736.645mil|Location2.Y=2758.645mil|Absolute=True">Pad U6-11(163.304mm,44.39mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2660.645mil|Location2.Y=2682.645mil|Absolute=True">Pad U6-14(163.304mm,42.46mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7396.291mil|Location2.X=7462.291mil|Location1.Y=2685.645mil|Location2.Y=2707.645mil|Absolute=True">Pad U6-13(163.304mm,43.095mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True">Pad U2-25(79.573mm,47.049mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True">Pad U2-26(79.573mm,47.849mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True">Pad U2-27(79.573mm,48.649mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True">Pad U2-26(79.573mm,47.849mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True">Pad U2-25(79.573mm,47.049mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True">Pad U2-24(79.573mm,46.249mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True">Pad U2-23(79.573mm,45.449mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True">Pad U2-24(79.573mm,46.249mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True">Pad U2-28(79.573mm,49.449mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True">Pad U2-27(79.573mm,48.649mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-15(86.843mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-14(87.643mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-13(88.443mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-14(87.643mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-21(82.043mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-22(81.243mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-19(83.643mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-20(82.843mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-21(82.043mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-20(82.843mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True">Pad U2-29(79.573mm,50.249mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True">Pad U2-30(79.573mm,51.049mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True">Pad U2-31(79.573mm,51.849mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True">Pad U2-30(79.573mm,51.049mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True">Pad U2-32(79.573mm,52.649mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True">Pad U2-31(79.573mm,51.849mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-43(88.443mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-44(89.243mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-42(87.643mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-43(88.443mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-41(86.843mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4435.685mil|Location2.X=4465.338mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-42(87.643mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-40(86.043mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-41(86.843mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-39(85.243mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-40(86.043mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-35(82.043mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4183.716mil|Location2.X=4213.37mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-34(81.243mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-36(82.843mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4215.212mil|Location2.X=4244.866mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-35(82.043mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-37(83.643mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.708mil|Location2.X=4276.362mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-36(82.843mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-38(84.443mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-37(83.643mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-39(85.243mm,55.119mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=3137.102mil|Location2.Y=3202.976mil|Absolute=True">Pad U2-38(84.443mm,55.119mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True">Pad U2-32(79.573mm,52.649mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True">Pad U2-33(79.573mm,53.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True">Pad U2-28(79.573mm,49.449mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4099.858mil|Location2.X=4165.732mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True">Pad U2-29(79.573mm,50.249mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-18(84.443mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4278.204mil|Location2.X=4307.858mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-19(83.643mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-17(85.243mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4309.7mil|Location2.X=4339.354mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-18(84.443mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4467.181mil|Location2.X=4496.834mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-13(88.443mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4498.677mil|Location2.X=4528.33mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-12(89.243mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-16(86.043mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4404.189mil|Location2.X=4433.842mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-15(86.843mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.197mil|Location2.X=4370.85mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-17(85.243mm,43.779mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4372.693mil|Location2.X=4402.346mil|Location1.Y=2690.645mil|Location2.Y=2756.519mil|Absolute=True">Pad U2-16(86.043mm,43.779mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True">Pad U2-10(90.913mm,46.249mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2774.503mil|Location2.Y=2804.157mil|Absolute=True">Pad U2-11(90.913mm,45.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True">Pad U2-9(90.913mm,47.049mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2805.999mil|Location2.Y=2835.653mil|Absolute=True">Pad U2-10(90.913mm,46.249mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True">Pad U2-8(90.913mm,47.849mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2837.496mil|Location2.Y=2867.149mil|Absolute=True">Pad U2-9(90.913mm,47.049mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True">Pad U2-7(90.913mm,48.649mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2868.992mil|Location2.Y=2898.645mil|Absolute=True">Pad U2-8(90.913mm,47.849mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True">Pad U2-6(90.913mm,49.449mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2900.488mil|Location2.Y=2930.141mil|Absolute=True">Pad U2-7(90.913mm,48.649mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True">Pad U2-2(90.913mm,52.649mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3089.464mil|Location2.Y=3119.117mil|Absolute=True">Pad U2-1(90.913mm,53.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True">Pad U2-5(90.913mm,50.249mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2931.984mil|Location2.Y=2961.637mil|Absolute=True">Pad U2-6(90.913mm,49.449mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True">Pad U2-3(90.913mm,51.849mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3057.968mil|Location2.Y=3087.622mil|Absolute=True">Pad U2-2(90.913mm,52.649mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2963.48mil|Location2.Y=2993.133mil|Absolute=True">Pad U2-5(90.913mm,50.249mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True">Pad U2-4(90.913mm,51.049mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=3026.472mil|Location2.Y=3056.125mil|Absolute=True">Pad U2-3(90.913mm,51.849mm)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\pablo\Documents\Altium Workspace\Projects\Extender_Remastered_V1\Extender_Remastered_V1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4546.315mil|Location2.X=4612.189mil|Location1.Y=2994.976mil|Location2.Y=3024.629mil|Absolute=True">Pad U2-4(90.913mm,51.049mm)  Bottom Layer</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br></body>
+</html>
